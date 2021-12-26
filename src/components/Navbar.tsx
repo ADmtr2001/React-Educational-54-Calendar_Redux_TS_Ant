@@ -3,9 +3,12 @@ import {Layout, Menu, Row} from "antd";
 import {useHistory} from "react-router-dom";
 import {RoutesNames} from "../routes";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useDispatch} from "react-redux";
+import {AuthActionCreators} from "../store/reducers/auth/action-creators";
 
 const Navbar: FC = () => {
-  const {isAuth} = useTypedSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const {isAuth, user} = useTypedSelector(state => state.auth);
   const router = useHistory();
 
   return (
@@ -15,12 +18,12 @@ const Navbar: FC = () => {
           ?
           <>
             <div style={{color: 'white'}}>
-              Arsen
+              {user.username}
             </div>
             <Menu theme="dark" mode="horizontal" selectable={false}>
 
               <Menu.Item
-                onClick={() => console.log('Выйти')}
+                onClick={() => dispatch(AuthActionCreators.logout())}
                 key={1}
               >
                 Выйти
